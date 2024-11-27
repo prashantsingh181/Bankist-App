@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="login.js" type="module" defer></script>
+    <title>Login</title>
+  </head>
+  <body>
+    <form class="login-card login-form">
+      <h1 class="login-heading">Login</h1>
+      <div>
+        <div class="input-container">
+          <input
+            type="text"
+            name="username"
+            id="username"
+            class="username-input"
+            placeholder=""
+          />
+          <label for="username">Username</label>
+        </div>
+        <div class="username-error error"></div>
+      </div>
+      <div>
+        <div class="input-container">
+          <input
+            type="password"
+            name="pin"
+            id="pin"
+            class="pin-input"
+            placeholder=""
+          />
+          <label for="pin">PIN</label>
+        </div>
+        <div class="pin-error error"></div>
+      </div>
+
+      <div class="form-error"></div>
+      <button type="submit" class="login-button">Login</button>
+    </form>
+  </body>
+</html>

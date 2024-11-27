@@ -1,0 +1,97 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #d4fc79 0%, #96e6a1 50%, #fbc2eb 100%);
+}
+
+.login-card {
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(0.25rem);
+  border-radius: 0.5rem;
+  min-width: 18rem;
+  color: #444;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.login-heading {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.input-container {
+  position: relative;
+  background-color: rgba(255, 255, 255);
+  border-radius: 0.5rem;
+  height: 2.75rem;
+  padding: 0.25rem 0.5rem;
+  border: 0.125rem solid transparent;
+  display: flex;
+  flex-direction: column;
+}
+.input-container label {
+  position: absolute;
+  font-size: 0.65rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  transition: all 300ms ease;
+  padding: 0.25rem 0.5rem;
+  cursor: text;
+}
+
+.input-container input:placeholder-shown + label {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.15rem;
+}
+
+.input-container input:focus-within + label {
+  font-size: 0.65rem;
+  top: 0;
+  transform: translateY(0%);
+}
+.input-container input {
+  font-size: 1.05rem;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+  height: 1.15rem;
+  margin-top: auto;
+}
+.input-container:focus-within {
+  border-color: #444;
+}
+
+.login-button {
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  color: rgba(255, 255, 255);
+  border: 0;
+  border-radius: 0.5rem;
+}
+
+.error {
+  font-size: 0.75rem;
+  color: red;
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: red;
+}
