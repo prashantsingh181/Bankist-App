@@ -38,12 +38,23 @@ const formTransfer = document.querySelector('.form--transfer');
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-const currentUser = sessionStorage.getItem('account');
+let currentUser;
+
+try {
+  currentUser = JSON.parse(sessionStorage.getItem('account'));
+} catch (error) {
+  console.error(error);
+  currentUser = null;
+}
+
 let currentAccount = accounts.find(
   account =>
     account.username === currentUser.username && account.pin === currentUser.pin
 );
 
+if (!currentAccount) {
+  window.location.href = 'login.html';
+}
 const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -102,14 +113,17 @@ function handleLogout() {
   window.location.href = 'login.html';
 }
 
+console.log(currentAccount);
+
 formTransfer.addEventListener('submit', handleTransfer);
 btnLogout.addEventListener('click', handleLogout);
+updateUserUI(currentAccount);
 
 function updateUserUI(account) {
   displayMovements(account.movements);
   displayCalcBalance(account);
   displayCalcSummary(account);
-  containerApp.style.opacity = 1;
+  labelWelcome.innerText = `Welcome, ${currentAccount.owner}`;
 }
 
 function displayMovements(movements) {
@@ -122,7 +136,7 @@ function displayMovements(movements) {
       index + 1
     } ${type}</div>
         <div class="movements__date">3 days ago</div>
-        <div class="movements__value">${movement}</div>
+        <div class="movements__value">${movement}€</div>
       </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);

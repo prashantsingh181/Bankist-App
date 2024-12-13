@@ -50,7 +50,7 @@ function handleFormSubmit(e) {
     formError.textContent = 'User not found';
     return;
   }
-  if (account && account.pin !== Number(formObject.pin)) {
+  if (account && account.pin !== formObject.pin) {
     formError.textContent = 'Incorrect password';
     return;
   }
@@ -75,7 +75,7 @@ function validateForm(formObject, formValidation) {
     } else if (
       validation.type &&
       validation.type === 'number' &&
-      isNaN(Number(value))
+      isNaN(value)
     ) {
       error[key] = `${capitalize(key)} must be a number`;
     }
