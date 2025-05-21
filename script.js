@@ -167,7 +167,7 @@ function displayMovements(movements, sorted = false) {
         <div class="movements__type movements__type--${type}">${
           index + 1
         } ${type}</div>
-        <div class="movements__date">3 days ago</div>
+        <div class="movements__date">${index + 3} days ago</div>
         <div class="movements__value">${movement}€</div>
       </div>
     `;
