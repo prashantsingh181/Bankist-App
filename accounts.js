@@ -1,10 +1,10 @@
 // Data
 const account1 = {
   id: 1,
-  owner: 'Jonas Schmedtmann',
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  owner: 'Prashant Singh',
+  movements: [2000, 110, -298, -200, -650, 492, 70, 1300],
   interestRate: 1.2,
-  username: 'js',
+  username: 'ps',
   pin: 1111,
 };
 
