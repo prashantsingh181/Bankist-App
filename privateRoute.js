@@ -15,7 +15,7 @@ if (
   accounts.findIndex(
     account =>
       account.username === currentAccount.username &&
-      account.pin === currentAccount.pin
+      account.pin === Number(currentAccount.pin)
   ) === -1
 ) {
   document.body.innerText = 'Redirecting to login...';

@@ -1,10 +1,13 @@
+'use strict';
+
 import { accounts } from './accounts.js';
 
 let passwordVisible = false;
 let triedSubmittingForm = false;
-const passwordInput = document.getElementById('password');
+const passwordInput = document.getElementById('pin');
 const loginForm = document.querySelector('.login-form');
 const formError = document.querySelector('.form-error');
+const togglePasswordButton = document.querySelector('.toggle-password');
 sessionStorage.removeItem('account');
 let error = {};
 
@@ -22,6 +25,7 @@ const formValidation = {
 function handlePasswordVisibilityToggle() {
   passwordVisible = !passwordVisible;
   passwordInput.type = passwordVisible ? 'text' : 'password';
+  togglePasswordButton.querySelectorAll('svg').forEach(svg => svg.classList.toggle('hidden'));
 }
 
 function setFormError(formObject, error) {
@@ -35,35 +39,35 @@ function handleFormSubmit(e) {
   triedSubmittingForm = true;
   const formData = new FormData(e.target);
   const formObject = Object.fromEntries(formData.entries());
-  formObject.pin = Number(formObject.pin);
 
   validateForm(formObject, formValidation);
+
   if (Object.keys(error).some(item => item)) {
     setFormError(formObject, error);
     return;
   }
 
   const account = accounts.find(
-    account => account.username === formObject.username
+    account => account.username === formObject.username,
   );
-  if (!account) {
-    formError.textContent = 'User not found';
-    return;
-  }
-  if (account && account.pin !== formObject.pin) {
-    formError.textContent = 'Incorrect password';
+  if (!account || account.pin !== Number(formObject.pin)) {
+    formError.textContent = 'Invalid Credentials!';
     return;
   }
 
+  console.log('some');
   sessionStorage.setItem('account', JSON.stringify(formObject));
   window.location.href = 'index.html';
 }
 
+// helper function
 function validateForm(formObject, formValidation) {
   error = {};
+  console.log(formObject);
   Object.entries(formObject).forEach(([key, value]) => {
     const validation = formValidation[key];
-    if (validation.required && value === '') {
+    if (validation.required && value.trim() === '') {
+      console.log(1);
       error[key] = `${capitalize(key)} is required`;
     } else if (
       validation.length &&
@@ -75,7 +79,7 @@ function validateForm(formObject, formValidation) {
     } else if (
       validation.type &&
       validation.type === 'number' &&
-      isNaN(value)
+      isNaN(Number(value))
     ) {
       error[key] = `${capitalize(key)} must be a number`;
     }
@@ -99,3 +103,4 @@ loginForm.querySelectorAll('input').forEach(input => {
   input.addEventListener('input', handleInputChange);
 });
 loginForm.addEventListener('submit', handleFormSubmit);
+togglePasswordButton.addEventListener('click', handlePasswordVisibilityToggle)

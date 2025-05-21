@@ -19,15 +19,16 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #444;
   background-color: #f3f3f3;
-  height: 100vh;
-  padding: 2rem;
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 2rem;
+  gap: 1rem;
+  background: white;
+  border-bottom: 1px solid #eee;
 }
 
 .welcome {
@@ -39,44 +40,17 @@ nav {
   height: 5.25rem;
 }
 
-.login {
-  display: flex;
-}
-
-.login__input {
-  border: none;
-  padding: 0.5rem 2rem;
-  font-size: 1.6rem;
-  font-family: inherit;
-  text-align: center;
-  width: 12rem;
-  border-radius: 10rem;
-  margin-right: 1rem;
-  color: inherit;
-  border: 1px solid #fff;
-  transition: all 0.3s;
-}
-
-.login__input:focus {
-  outline: none;
-  border: 1px solid #ccc;
-}
-
-.login__input::placeholder {
-  color: #bbb;
-}
-
-.login__btn {
+.btn--logout {
   border: none;
   background: none;
-  font-size: 2.2rem;
+  font-size: 1.9rem;
   color: inherit;
   cursor: pointer;
   transition: all 0.3s;
 }
 
-.login__btn:hover,
-.login__btn:focus,
+.btn--logout:hover,
+.btn--logout:focus,
 .btn--sort:hover,
 .btn--sort:focus {
   outline: none;
@@ -87,18 +61,20 @@ nav {
 .app {
   position: relative;
   max-width: 100rem;
-  margin: 4rem auto;
+  margin: 2rem auto;
   display: grid;
   grid-template-columns: 4fr 3fr;
   grid-template-rows: auto repeat(3, 15rem) auto;
   gap: 2rem;
+  padding: 2rem;
 }
 
 .balance {
-  grid-column: 1 / span 2;
+  grid-column: 1 / -1;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
+  gap: 1rem;
   margin-bottom: 2rem;
 }
 
@@ -124,6 +100,7 @@ nav {
   background-color: #fff;
   border-radius: 1rem;
   overflow: scroll;
+  width: 100%;
 }
 
 .movements__row {
@@ -167,21 +144,25 @@ nav {
 .summary {
   grid-row: 5 / 6;
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  gap: 3rem;
   padding: 0 0.3rem;
   margin-top: 1rem;
+}
+.summary__stat {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .summary__label {
   font-size: 1.2rem;
   font-weight: 500;
   text-transform: uppercase;
-  margin-right: 0.8rem;
 }
 
 .summary__value {
   font-size: 2.2rem;
-  margin-right: 2.5rem;
 }
 
 .summary__value--in,
@@ -207,6 +188,7 @@ nav {
   border-radius: 1rem;
   padding: 3rem 4rem;
   color: #333;
+  max-width: 45rem;
 }
 
 .operation--transfer {
@@ -230,14 +212,14 @@ h2 {
 
 .form {
   display: grid;
-  grid-template-columns: 2.5fr 2.5fr 1fr;
+  grid-template-columns: 1fr 1fr 4.5rem;
   grid-template-rows: auto auto;
   gap: 0.4rem 1rem;
 }
 
 /* Exceptions for interst */
 .form.form--loan {
-  grid-template-columns: 2.5fr 1fr 2.5fr;
+  grid-template-columns: 1fr 4.5rem 1fr;
 }
 .form__label--loan {
   grid-row: 2;
@@ -290,4 +272,160 @@ h2 {
 
 .timer {
   font-weight: 600;
+}
+
+@media (max-width: 75rem) {
+  .balance {
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+
+  .balance__label {
+    font-size: 1.9rem;
+  }
+
+  .balance__date {
+    font-size: 1.1rem;
+  }
+
+  .balance__value {
+    font-size: 3.5rem;
+  }
+
+  .movements__row {
+    padding: 2rem 3rem;
+  }
+  .operation {
+    padding: 2rem 3rem;
+  }
+}
+
+@media (max-width: 50rem) {
+  nav {
+    padding: 1rem;
+  }
+
+  .welcome {
+    font-size: 1.7rem;
+  }
+
+  .logo {
+    height: 4rem;
+  }
+
+  .btn--logout {
+    font-size: 1.7rem;
+  }
+
+  .app {
+    grid-template-columns: 1fr;
+    margin-bottom: 8rem;
+    padding: 1rem;
+    justify-items: center;
+  }
+
+  .balance__label {
+    font-size: 1.8rem;
+  }
+
+  .balance__date {
+    font-size: 1rem;
+  }
+
+  .balance__value {
+    font-size: 3rem;
+  }
+
+  .summary {
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1rem 2.5rem 1rem;
+    gap: 2rem;
+    border-top: 1px solid #eee;
+    margin: 0;
+  }
+  .summary__stat {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .summary__label {
+    font-size: 0.9rem;
+  }
+
+  .summary__value {
+    font-size: 1.75rem;
+  }
+
+  .btn--sort {
+    font-size: 1.2rem;
+  }
+
+  .operation {
+    padding: 2rem 3rem;
+  }
+
+  h2 {
+    margin-bottom: 1.3rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .form__input {
+    font-size: 1.3rem;
+    padding: 0.3rem 1rem;
+  }
+  .form__label {
+    font-size: 1.1rem;
+  }
+
+  .form__btn {
+    font-size: 1.6rem;
+  }
+
+  .movements__row {
+    padding: 2rem 1rem;
+  }
+
+  .movements__type {
+    font-size: 1rem;
+    padding: 0.1rem 0.8rem;
+    margin-right: 1.5rem;
+  }
+
+  .movements__date {
+    font-size: 1rem;
+  }
+
+  .movements__value {
+    font-size: 1.5rem;
+  }
+
+  .logout-timer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 1.1rem;
+    text-align: center;
+    border-top: 1px solid #eee;
+  }
+}
+
+@media (max-width: 30rem) {
+  .welcome {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    height: 3.5rem;
+  }
+
+  .btn--logout {
+    font-size: 1.5rem;
+  }
 }
