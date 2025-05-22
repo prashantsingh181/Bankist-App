@@ -19,6 +19,12 @@ const btnLogout = document.querySelector('.btn--logout');
 const formTransfer = document.querySelector('.form--transfer');
 const formLoan = document.querySelector('.form--loan');
 const formClose = document.querySelector('.form--close');
+const priceFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 
 let currentUser;
 let interval;
@@ -41,20 +47,6 @@ let currentAccount = accounts.find(
 if (!currentAccount) {
   window.location.href = 'login.html';
 }
-
-/////////////////////////////////////////////////
-
-// function computeUsername(fullName) {
-//   return fullName
-//     .split(' ')
-//     .map(name => name[0].toLowerCase())
-//     .join('');
-// }
-
-// const accountsWithUsername = accounts.map(account => ({
-//   ...account,
-//   username: computeUsername(account.owner),
-// }));
 
 // handle submission of transfer form
 function handleTransfer(e) {
@@ -85,13 +77,21 @@ function handleTransfer(e) {
     return alert('You cannot transfer money to yourself.');
   }
 
-  currentAccount.movements.push(-Number(formObject.amount));
-  transferAccount.movements.push(Number(formObject.amount));
+  const date = new Date().toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: 'numeric',
+  });
+  currentAccount.movements.push({
+    value: -Number(formObject.amount),
+    date,
+  });
+  transferAccount.movements.push({ value: Number(formObject.amount), date });
   updateUserUI(currentAccount);
   totalTime = SESSION_TIME;
   form.reset();
   alert(
-    `Transfer of ${formObject.amount}€ to ${transferAccount.owner} successful.`,
+    `Transfer of ${priceFormatter.format(formObject.amount)} to ${transferAccount.owner} successful.`,
   );
 }
 
@@ -106,13 +106,22 @@ function handleLoan(e) {
     return alert('Please enter a valid amount.');
   }
   const isEligible = currentAccount.movements.some(
-    movement => movement >= loanAmount * 0.1,
+    movement => movement.value >= loanAmount * 0.1,
   );
 
   if (!isEligible) {
-    alert('Loan amount should not exceed 10% of maximum transaction amount.');
+    return alert(
+      'Loan amount should not exceed 10% of maximum transaction amount.',
+    );
   }
-  currentAccount.movements.push(loanAmount);
+  currentAccount.movements.push({
+    value: loanAmount,
+    date: new Date().toLocaleString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+      year: 'numeric',
+    }),
+  });
   updateUserUI(currentAccount);
   totalTime = SESSION_TIME;
   form.reset();
@@ -161,14 +170,14 @@ function displayMovements(movements, sorted = false) {
 
   const movs = sorted ? movements.slice().sort((a, b) => a - b) : movements;
   movs.forEach((movement, index) => {
-    const type = movement < 0 ? 'withdrawal' : 'deposit';
+    const type = movement.value < 0 ? 'withdrawal' : 'deposit';
     const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${
           index + 1
         } ${type}</div>
-        <div class="movements__date">${index + 3} days ago</div>
-        <div class="movements__value">${movement}€</div>
+        <div class="movements__date">${movement.date}</div>
+        <div class="movements__value">${priceFormatter.format(movement.value)}</div>
       </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -178,32 +187,37 @@ function displayMovements(movements, sorted = false) {
 // function to calculate and display balance of account
 function displayCalcBalance(account) {
   account.balance = currentAccount.movements.reduce(
-    (accumulator, movement) => accumulator + movement,
+    (accumulator, movement) => accumulator + movement.value,
+    0,
   );
-  labelBalance.textContent = `${account.balance}€`;
+  console.log(account.balance);
+  labelBalance.textContent = `${priceFormatter.format(account.balance)}`;
 }
 
 // function to calculate and display summary of deposits, withdrawals, and interest
 function displayCalcSummary(account) {
   const { deposit, withdrawal, interest } = account.movements.reduce(
     (acc, movement) => {
-      if (movement > 0) {
-        const interestAmount = (movement * account.interestRate) / 100;
+      if (movement.value > 0) {
+        const interestAmount = (movement.value * account.interestRate) / 100;
         return {
           ...acc,
-          deposit: acc.deposit + movement,
+          deposit: acc.deposit + movement.value,
           interest:
             interestAmount >= 1 ? acc.interest + interestAmount : acc.interest,
         };
       } else {
-        return { ...acc, withdrawal: acc.withdrawal + Math.abs(movement) };
+        return {
+          ...acc,
+          withdrawal: acc.withdrawal + Math.abs(movement.value),
+        };
       }
     },
     { deposit: 0, withdrawal: 0, interest: 0 },
   );
-  labelSumIn.textContent = `${deposit}€`;
-  labelSumOut.textContent = `${withdrawal}€`;
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumIn.textContent = `${priceFormatter.format(deposit)}`;
+  labelSumOut.textContent = `${priceFormatter.format(withdrawal)}`;
+  labelSumInterest.textContent = `${priceFormatter.format(interest)}`;
 }
 
 function updateUserUI(account) {
