@@ -2,6 +2,8 @@
 
 Bankist is a small responsive banking application built using vanilla JavaScript. It offers basic banking features such as login, checking balance and transaction history, requesting loans, sending money to other users, and closing accounts. Sorting functionality for transaction movements is also implemented.
 
+<img width="1440" alt="Bankist App Preview" src="https://github.com/user-attachments/assets/bb044289-8617-4253-939d-aedba3c920d2" />
+
 ## ✨ Features
 
 - ✅ Login and session-based access
