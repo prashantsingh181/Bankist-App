@@ -168,7 +168,8 @@ function handleLogout() {
 function displayMovements(movements, sorted = false) {
   containerMovements.innerHTML = '';
 
-  const movs = sorted ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sorted ? movements.slice().sort((a, b) => a.value - b.value) : movements;
+  console.log(movs);
   movs.forEach((movement, index) => {
     const type = movement.value < 0 ? 'withdrawal' : 'deposit';
     const html = `
@@ -190,7 +191,6 @@ function displayCalcBalance(account) {
     (accumulator, movement) => accumulator + movement.value,
     0,
   );
-  console.log(account.balance);
   labelBalance.textContent = `${priceFormatter.format(account.balance)}`;
 }
 
@@ -251,7 +251,9 @@ formLoan.addEventListener('submit', handleLoan);
 formClose.addEventListener('submit', handleClose);
 btnLogout.addEventListener('click', handleLogout);
 btnSort.addEventListener('click', () => {
+  console.log(123);
   sorted = !sorted;
+  console.log(sorted);
   displayMovements(currentAccount.movements, sorted);
 });
 

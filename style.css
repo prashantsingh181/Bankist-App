@@ -256,6 +256,8 @@ h2 {
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s;
+  display: grid;
+  place-items: center;
 }
 
 .form__btn:focus {
